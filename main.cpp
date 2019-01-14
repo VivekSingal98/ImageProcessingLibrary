@@ -1,15 +1,18 @@
 #include<iostream>
 #include <fstream>
 #include<string>
+#include<cmath>
 using namespace std;
 #include "util.h"
 #include "convolution_withMultiplication.h"
+#include "activation.h"
 
 int main(int argc, char** argv) {
 	string type=argv[1];
-	if(true) {
+	if(type=="convolution_mult") {
+		//Arg pattern-> ./main convolution_mult padding inputFile1.txt sizeOfMatrix1 inputFile2.txt sizeOfMatrix2 outputFile.txt
 		if(argc-2!=6) {
-			errorArguments();
+			errorArgumentsConvMult();
 			exit(0);
 		}
 		//taking arguments
@@ -42,7 +45,6 @@ int main(int argc, char** argv) {
 		// printMatrix(matrix2,m2,n2);
 		fin.close();
 		
-		// int** matrix3=matrix_multiplication(matrix,m1,n1,matrix2,m2,n2);
 		//convolving two matrices with multiplication
 		float** matrix3=matrix_convolution(matrix1_pad,m1,n1,matrix2,m2,n2);
 		int m_convolveMatrix=(m1-m2+1);
@@ -50,13 +52,41 @@ int main(int argc, char** argv) {
 		// printMatrix(matrix3,m_convolveMatrix,n_convolveMatrix);
 		
 		//writing to output file
-		ofstream fout(outputFileName,ios::trunc);
+		ofstream fout(outputFileName);
 		writeMatrix(fout,matrix3,m_convolveMatrix,n_convolveMatrix);
 		
 		freeSpace(matrix1_pad,m1);
 		freeSpace(matrix2,m2);
 		freeSpace(matrix3,m_convolveMatrix);
 		fout.close();
+	}
+	else if(type=="activation") {
+		//Arg pattern-> ./main activation relu/tanh inputFile1.txt matrix_m matrix_n outputFile.txt
+		if(argc!=7) {
+			errorArgumentsActivation();
+		}
+		string func=argv[2];
+		string inputFile=argv[3];
+		int m=stoi(argv[4]);
+		int n=stoi(argv[5]);
+		string outputFile=argv[6];
+
+		//reading matrix
+		ifstream fin(inputFile);
+		float** matrix=readMatrix(fin,m,n);
+		// printMatrix(matrix,m,n);
+		if(func=="relu") {
+			relu(matrix,m,n);
+		}
+		else {
+			tanh(matrix,m,n);
+		}
+		fin.close();
+		//writing matrix
+		ofstream fout(outputFile);
+		writeMatrix(fout,matrix,m,n);
+		fout.close();
+		freeSpace(matrix,m);
 	}
 
 }

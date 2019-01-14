@@ -1,15 +1,19 @@
 float** matrix_multiplication(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2);
 float** matrix_convolution(float** matrix,int m1,int n1,float** kernel,int m2,int n2);
 float** addPadding(float** matrix,int m,int n,int p);
-void errorArguments();
+void errorArgumentsConvMult();
 
-void errorArguments() {
-	cerr<<"Wrong arguments"<<endl;
-	cerr<<"./main convolve_mult padding inputFile1.txt sizeOfMatrix1 inputFile2.txt sizeOfMatrix2 outputFile.txt"<<endl;
+//help if wrong argument typed in console
+void errorArgumentsConvMult() {
+	cerr<<"Wrong arguments. Follow below pattern for convolution using multiplication"<<endl;
+	cerr<<"./main convolution_mult padding inputFile1.txt sizeOfMatrix1 inputFile2.txt sizeOfMatrix2 outputFile.txt"<<endl;
 }
+
+//multipies two matrices
 float** matrix_multiplication(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2) {
 	if(n1!=m2) {
-		throw "matrixes not compatible for multiplication";
+		cerr<<"matrixes not compatible for multiplication";
+		exit(0);
 	}
 	float** matrix3=createMatrix(m1,n2);
 	for(int i=0;i<m1;i++) {
@@ -23,6 +27,7 @@ float** matrix_multiplication(float** matrix1,int m1,int n1,float** matrix2,int 
 	return matrix3;
 }
 
+//adds padding to the matrix
 float** addPadding(float** matrix,int m,int n,int p) {
 	int m1=m+2*p;
 	int n1=n+2*p;
@@ -45,9 +50,12 @@ float** addPadding(float** matrix,int m,int n,int p) {
 
 	return matrix_padded;
 }
+
+//convolution of two matrices(actually cross correlation)
 float** matrix_convolution(float** matrix,int m1,int n1,float** kernel,int m2,int n2) {
 	if(m1<m2 || n1<n2) {
-		throw "kernel bigger than matrix. Can't convolve";
+		cerr<<"kernel bigger than matrix. Can't convolve";
+		exit(0);
 	}
 	int m_convolveMatrix=(m1-m2+1);
 	int n_convolveMatrix=(n1-n2+1);

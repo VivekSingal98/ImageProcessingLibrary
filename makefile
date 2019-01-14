@@ -1,4 +1,4 @@
 CXX = g++
 
-convolution: convolution.cpp convolution_withMultiplication.h util.h
-	$(CXX) -o convolution convolution.cpp
+main: main.cpp convolution_withMultiplication.h util.h activation.h
+	$(CXX) -o main main.cpp
