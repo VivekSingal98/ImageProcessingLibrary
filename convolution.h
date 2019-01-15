@@ -12,7 +12,7 @@
 using namespace std;
 
 //convolution of 2 matrices stored as column major in list 
-list<float> convolution(list<float> input, int input_rows, int padding, list<float> kernel, int kernel_rows){
+list<float> conv(list<float> input, int input_rows, int padding, list<float> kernel, int kernel_rows){
   
   //storing input column major list as 2D list (also in column major format) 
   int input_col = input_rows;

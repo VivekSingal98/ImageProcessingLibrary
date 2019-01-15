@@ -37,7 +37,7 @@ int main (int argc, char **argv)
     list<float> kernel = string_to_list(line1);
     
     //computing the convolution operation
-    list<float> output = convoluton(input,input_rows,padding,kernel,kernel_rows);
+    list<float> output = conv(input,input_rows,padding,kernel,kernel_rows);
 
     //storing result convolution as string
     string result = "";
