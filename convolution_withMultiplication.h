@@ -1,3 +1,11 @@
+#ifndef CONVOLUTION_WITHMULTIPLICATION.H
+#define CONVOLUTION_WITHMULTIPLICATION.H
+#include<iostream>
+#include <fstream>
+#include<cmath>
+#include "util.h"
+using namespace std;
+
 float** matrix_multiplication(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2);
 float** matrix_convolution(float** matrix,int m1,int n1,float** kernel,int m2,int n2);
 float** addPadding(float** matrix,int m,int n,int p);
@@ -100,3 +108,5 @@ float** matrix_convolution(float** matrix,int m1,int n1,float** kernel,int m2,in
 	freeSpace(matrix_conv_column,m_Toeplitz);
 	return matrix_conv;
 }
+
+#endif

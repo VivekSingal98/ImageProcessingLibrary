@@ -1,3 +1,11 @@
+#ifndef ACTIVATION_H
+#define ACTIVATION_H
+
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
 void relu(float** matrix,int m,int n);
 void tanh(float** matrix,int m,int n);
 void errorArgumentsActivation();
@@ -27,3 +35,5 @@ void tanh(float** matrix,int m,int n) {
 		}
 	}
 }
+
+#endif
