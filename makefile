@@ -1,10 +1,5 @@
-main: utility.h func.h main.cpp
+main: utility.h main.cpp convolution.h sampling.h probability.h activation.h
 	g++ -o main main.cpp
 
-func: utility.h func.h
-	g++ -o func func.h
-
-utility: utility.h
-	g++ -o utility utility.h
 
 

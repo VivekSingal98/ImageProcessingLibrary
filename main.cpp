@@ -5,9 +5,11 @@
 #include <string>
 #include <iomanip>
 #include <math.h>
-#include "func.h"
 #include "utility.h"
-
+#include "convolution.h"
+#include "sampling.h"
+#include "activation.h"
+#include "probability.h"
 using namespace std;
 
 
@@ -123,33 +125,30 @@ int main (int argc, char **argv)
   }
 
 
-  else if(argc==4 && (check=="relu" || check=="tanh")){
+  else if(argc==7 && (check=="activation")){
     
-    string activation_type = argv[1];    
-    string inputfile = argv[2];
-    string outputfile = argv[3];
+    string func=argv[2];
+    string inputFile=argv[3];
+    int m=stoi(argv[4]);
+    int n=stoi(argv[5]);
+    string outputFile=argv[6];
 
-    string line;
-    readline_from_file(inputfile,&line);
-
-    std::list<float> input = string_to_list(line);
-
-    list<float> output;
-    if(activation_type=="relu"){
-      output = relu(input);
+    //reading matrix
+    ifstream fin(inputFile);
+    float** matrix=readMatrix(fin,m,n);
+    // printMatrix(matrix,m,n);
+    if(func=="relu") {
+      relu(matrix,m,n);
     }
-    if(activation_type=="tanh"){
-      output = tanh(input);  
+    else {
+      tanh(matrix,m,n);
     }
-
-    string result = "";
-    for(auto v : output){
-      result.append(to_string(v));
-      result.append(" ");
-    }
-    
-
-    writeline_to_file(outputfile,result);  
+    fin.close();
+    //writing matrix
+    ofstream fout(outputFile);
+    writeMatrix(fout,matrix,m,n);
+    fout.close();
+    freeSpace(matrix,m); 
   }
 
   else if(argc==4 && (check=="sigmoid" || check=="softmax")){
@@ -185,13 +184,13 @@ int main (int argc, char **argv)
   else{
     cout << "HELP:" << endl;
     cout << "convolution usage:" << endl;
-    cout << "% ./a.out convolution/convolution_mult padding input_file input_rows kernel_file kernel_rows output_file" << endl;
+    cout << "% ./main convolution/convolution_mult padding input_file input_rows kernel_file kernel_rows output_file" << endl;
     cout << "maxpool or avgpool usage:" << endl;
-    cout << "% ./a.out maxpool/avgpool input_file input_rows kernel_rows output_file" << endl;
+    cout << "% ./main maxpool/avgpool input_file input_rows kernel_rows output_file" << endl;
     cout << "relu or tanh usage:" << endl;
-    cout << "% ./a.out relu/tanh input_file output_file" << endl;
+    cout << "% ./main activation relu/tanh inputFile1.txt matrix_m matrix_n outputFile.txt" << endl;
     cout << "sigmoid or softmax usage:" << endl;
-    cout << "% ./a.out maxpool/avgpool input_file output_file" << endl;
+    cout << "% ./main maxpool/avgpool input_file output_file" << endl;
 
   }
 
