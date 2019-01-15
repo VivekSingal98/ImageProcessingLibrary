@@ -11,9 +11,10 @@
 
 using namespace std;
 
-
+//compute sigmoid probabilities
 list<float> sigmoid(list<float> input){
   list<float> output;
+  //sigmoid operation
   for (auto it = input.begin(); it != input.end(); ++it){
     float exponential = exp(*it);
     output.push_back(exponential/(1.0+exponential));
@@ -22,8 +23,10 @@ list<float> sigmoid(list<float> input){
   return output;
 }
 
+//compute softmax probabilities
 list<float> softmax(list<float> input){
   list<float> output;
+  //softmax operation
   float sum;
   for (auto it = input.begin(); it != input.end(); ++it){
     sum = sum + exp(*it);

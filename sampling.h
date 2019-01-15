@@ -11,7 +11,10 @@
 
 using namespace std;
 
+//sub sampling of given matrix stored as column major list using max pool
 list<float> max_pool(list<float> input, int input_rows, int kernel_rows){
+  
+  //storing input column major list as 2D list (also in column major format)
   int input_col = input_rows;
   list<list<float>> input_mat;
   for(int i=0;i<input_col;i++){
@@ -23,8 +26,11 @@ list<float> max_pool(list<float> input, int input_rows, int kernel_rows){
     input_mat.push_back(col);
   }
   
+
   int kernel_col = kernel_rows;
   list<float> output;
+  
+  //max pool operation
   for(int i=0;i<=input_col - kernel_col;i++){
     for(int j=0;j<=input_rows - kernel_rows;j++){
       list<float> element;
@@ -40,7 +46,10 @@ list<float> max_pool(list<float> input, int input_rows, int kernel_rows){
   return output;
 }
 
+//sub sampling of given matrix stored as column major list using avg pool
 list<float> avg_pool(list<float> input, int input_rows, int kernel_rows){
+  
+  //storing input column major list as 2D list (also in column major format)
   int input_col = input_rows;
   list<list<float>> input_mat;
   for(int i=0;i<input_col;i++){
@@ -54,6 +63,8 @@ list<float> avg_pool(list<float> input, int input_rows, int kernel_rows){
   
   int kernel_col = kernel_rows;
   list<float> output;
+  
+  // avg pool operation
   for(int i=0;i<=input_col - kernel_col;i++){
     for(int j=0;j<=input_rows - kernel_rows;j++){
       float element = 0.0;

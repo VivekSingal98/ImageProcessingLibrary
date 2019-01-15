@@ -11,7 +11,10 @@
 
 using namespace std;
 
-list<float> conv(list<float> input, int input_rows, int padding, list<float> kernel, int kernel_rows){
+//convolution of 2 matrices stored as column major in list 
+list<float> convolution(list<float> input, int input_rows, int padding, list<float> kernel, int kernel_rows){
+  
+  //storing input column major list as 2D list (also in column major format) 
   int input_col = input_rows;
   list<list<float>> input_mat;
   for(int i=0;i<input_col;i++){
@@ -20,12 +23,14 @@ list<float> conv(list<float> input, int input_rows, int padding, list<float> ker
       col.push_back(get(input,i*input_col+j));
 
     }
+    //taking care of padding
     for(int j=0;j<padding;j++){
       col.push_front(0.0);
       col.push_back(0.0);
     }
     input_mat.push_back(col);
   }
+  //taking care of padding
   for(int i=0;i<padding;i++){
     list<float> col,col1;
     for(int j=0;j<input_rows+2*padding;j++){
@@ -37,7 +42,7 @@ list<float> conv(list<float> input, int input_rows, int padding, list<float> ker
 
   }
 
-	  
+	//storing kernel column major list as 2D list (also in column major format)  
   int kernel_col = kernel_rows;
   list<list<float>> kernel_mat;
   for(int i=0;i<kernel_col;i++){
@@ -49,6 +54,7 @@ list<float> conv(list<float> input, int input_rows, int padding, list<float> ker
     kernel_mat.push_back(col);
   }
 
+  //convolution operation
   list<float> output;
   int input_rows1 = input_rows+2*padding;
   int input_col1 = input_rows1;
@@ -66,17 +72,6 @@ list<float> conv(list<float> input, int input_rows, int padding, list<float> ker
   return output;
 } 
 
-
-
-
-
-
-
-//help if wrong argument typed in console
-void errorArgumentsConvMult() {
-	cerr<<"Wrong arguments. Follow below pattern for convolution using multiplication"<<endl;
-	cerr<<"./main convolution_mult padding inputFile1.txt sizeOfMatrix1 inputFile2.txt sizeOfMatrix2 outputFile.txt"<<endl;
-}
 
 //multipies two matrices
 float** matrix_multiplication(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2) {

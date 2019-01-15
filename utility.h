@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+//get element(of float type) at index i from a list
 float get(list<float> _list, int _i){
     list<float>::iterator it = _list.begin();
     for(int i=0; i<_i; i++){
@@ -16,6 +16,7 @@ float get(list<float> _list, int _i){
     return *it;
 }
 
+//get element(of list<float> type) at index i from a list
 list<float> get(list<list<float>> _list, int _i){
     list<list<float>>::iterator it = _list.begin();
     for(int i=0; i<_i; i++){
@@ -24,6 +25,7 @@ list<float> get(list<list<float>> _list, int _i){
     return *it;
 }
 
+//split string on spaces and storing it in list   
 list<float> string_to_list(string line){
     istringstream iss(line);
     list<float> input;
@@ -32,6 +34,7 @@ list<float> string_to_list(string line){
     return input; 
 }
 
+//read line from given file
 void readline_from_file(string inputfile,string *line){
     ifstream infile; 
     infile.open(inputfile); 
@@ -39,6 +42,7 @@ void readline_from_file(string inputfile,string *line){
     infile.close();
 }
 
+//write a line to given file
 void writeline_to_file(string outputfile, string result){
     ofstream outfile;
     outfile.open(outputfile);
