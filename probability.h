@@ -1,35 +1,32 @@
 #ifndef PROBABILITY_H
 #define PROBABILITY_H
 #include <iostream>
-#include<list>
-#include<iterator>
-#include <fstream>
-#include <string>
-#include <iomanip>
+#include<vector>
 #include <math.h>
 #include "utility.h"
 
 using namespace std;
+vector<float> sigmoid(vector<float> input);
+vector<float> softmax(vector<float> input);
 
-
-list<float> sigmoid(list<float> input){
-  list<float> output;
-  for (auto it = input.begin(); it != input.end(); ++it){
-    float exponential = exp(*it);
-    output.push_back(exponential/(1.0+exponential));
-    
+vector<float> sigmoid(vector<float> input){
+  vector<float> output;
+  for (int i =0,size=input.size(); i <size; i++){
+    float exponential = exp(-input[i]);
+    output.push_back(1/(1+exponential));
   }
   return output;
 }
 
-list<float> softmax(list<float> input){
-  list<float> output;
-  float sum;
-  for (auto it = input.begin(); it != input.end(); ++it){
-    sum = sum + exp(*it);
+vector<float> softmax(vector<float> input){
+  vector<float> output;
+  double sum=0;
+  for (int i =0,size=input.size(); i <size; i++){
+    sum = sum + exp(input[i]);
   }
-  for (auto it = input.begin(); it != input.end(); ++it){
-    output.push_back(exp(*it)/sum);
+
+  for (int i =0,size=input.size(); i <size; i++){
+    output.push_back(float(exp(input[i])/sum));
   }
 
   return output;

@@ -1,72 +1,58 @@
 #ifndef SAMPLING_H
 #define SAMPLING_H
 #include <iostream>
-#include<list>
-#include<iterator>
-#include <fstream>
-#include <string>
-#include <iomanip>
-#include <math.h>
 #include "utility.h"
 
 using namespace std;
 
-list<float> max_pool(list<float> input, int input_rows, int kernel_rows){
-  int input_col = input_rows;
-  list<list<float>> input_mat;
-  for(int i=0;i<input_col;i++){
-    list<float> col;
-    for(int j=0;j<input_rows;j++){
-      col.push_back(get(input,i*input_col+j));
+float** maxpool(float** matrix, int m1, int n1, int m2,int n2);
+float** avgpool(float** matrix, int m1, int n1, int m2,int n2);
 
-    }
-    input_mat.push_back(col);
+//m1,n1 is the size of input matrix. m2,n2 is the size of kernel of the maxpool
+float** maxpool(float** matrix, int m1, int n1, int m2,int n2){
+  if(m1%m2!=0 || n1%n2) {
+    cerr<<"kernel dimention not divisible by matrix. Can't do maxpool";
+    exit(1);
   }
-  
-  int kernel_col = kernel_rows;
-  list<float> output;
-  for(int i=0;i<=input_col - kernel_col;i++){
-    for(int j=0;j<=input_rows - kernel_rows;j++){
-      list<float> element;
-      for(int k=0;k<kernel_col;k++){
-        for(int l=0;l<kernel_rows;l++){
-          element.push_back(get(get(input_mat,i+k),j+l));
+  int m_afterPool=m1/m2;
+  int n_afterPool=n1/n2;
+  float** matrix_afterPool=createMatrix(m_afterPool,n_afterPool);
+  for(int i=0;i<m_afterPool;i++) {
+    for(int j=0;j<n_afterPool;j++) {
+      float elem=matrix[i*m2][j*n2];
+      for(int k=0;k<m2;k++) {
+        for(int l=0;l<n2;l++) {
+          if(elem<matrix[i*m2+k][j*n2+l]) {
+            elem=matrix[i*m2+k][j*n2+l];
+          }
         }
       }
-      element.sort();
-      output.push_back(element.back());
+      matrix_afterPool[i][j]=elem;
     }
   }
-  return output;
-}
+  return matrix_afterPool;
+} 
 
-list<float> avg_pool(list<float> input, int input_rows, int kernel_rows){
-  int input_col = input_rows;
-  list<list<float>> input_mat;
-  for(int i=0;i<input_col;i++){
-    list<float> col;
-    for(int j=0;j<input_rows;j++){
-      col.push_back(get(input,i*input_col+j));
-
-    }
-    input_mat.push_back(col);
+//m1,n1 is the size of input matrix. m2,n2 is the size of kernel of the avgpool
+float** avgpool(float** matrix, int m1, int n1, int m2,int n2){
+  if(m1%m2!=0 || n1%n2) {
+    cerr<<"kernel dimention not divisible by matrix. Can't do maxpool";
+    exit(1);
   }
-  
-  int kernel_col = kernel_rows;
-  list<float> output;
-  for(int i=0;i<=input_col - kernel_col;i++){
-    for(int j=0;j<=input_rows - kernel_rows;j++){
-      float element = 0.0;
-      for(int k=0;k<kernel_col;k++){
-        for(int l=0;l<kernel_rows;l++){
-          element = element + get(get(input_mat,i+k),j+l);
+  int m_afterPool=m1/m2;
+  int n_afterPool=n1/n2;
+  float** matrix_afterPool=createMatrix(m_afterPool,n_afterPool);
+  for(int i=0;i<m_afterPool;i++) {
+    for(int j=0;j<n_afterPool;j++) {
+      float elem=0;
+      for(int k=0;k<m2;k++) {
+        for(int l=0;l<n2;l++) {
+          elem+=matrix[i*m2+k][j*n2+l];
         }
       }
-      
-      output.push_back(element/(kernel_rows*kernel_col));
+      matrix_afterPool[i][j]=elem/(m2*n2);
     }
   }
-  return output;
+  return matrix_afterPool;
 }
-
 #endif
