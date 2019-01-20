@@ -1,4 +1,4 @@
-convolution usage: convolution is without multiplication. convolution_mult is with multiplication
+convolution usage: convolution is without multiplication. convolution_mult is with multiplication. For zero padding put padding=0
 % ./main convolution/convolution_mult padding input_file input_rows kernel_file kernel_rows output_file
 
 maxpool or avgpool usage:
