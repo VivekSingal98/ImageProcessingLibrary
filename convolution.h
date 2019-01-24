@@ -4,7 +4,7 @@
 #include <fstream>
 #include <pthread.h>
 #include "utility.h"
-#include </opt/OpenBLAS/include/cblas.h>
+#include <cblas.h>
 
 using namespace std;
 void* single_mult(void* arg);
@@ -184,7 +184,7 @@ float** matrix_convolution_with_mult(float** matrix,int m1,int n1,float** kernel
 				matrix_conv[i][j] = row_major_array[i*n_convolveMatrix+j];
 			}
 		}  
-		delete[] col_major_array;
+		delete[] row_major_array;
 	}
 
 	freeSpace(matrix_ToeplitzForm,m_Toeplitz);
