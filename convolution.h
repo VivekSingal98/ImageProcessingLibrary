@@ -9,7 +9,7 @@
 using namespace std;
 void* single_mult(void* arg);
 float** matrix_multiplication_pthread(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2);
-float** matrix_multiplication_openblas(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2,float* matrix3);
+void matrix_multiplication_openblas(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2,float* matrix3);
 float** addPadding(float** matrix,int m,int n,int p);
 float** matrix_convolution_with_mult(float** matrix,int m1,int n1,float** kernel,int m2,int n2,string method);
 float** conv_without_mult(float** matrix, int m1, int n1, float** kernel, int m2, int n2);
@@ -77,7 +77,7 @@ float** matrix_multiplication_pthread(float** matrix1,int m1,int n1,float** matr
 }
 
 //multipies two matrices using openblas
-float** matrix_multiplication_openblas(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2,float* matrix3) {
+void matrix_multiplication_openblas(float** matrix1,int m1,int n1,float** matrix2,int m2,int n2,float* matrix3) {
 	if(n1!=m2) {
 		cerr<<"matrixes not compatible for multiplication";
 		exit(1);
@@ -96,7 +96,7 @@ float** matrix_multiplication_openblas(float** matrix1,int m1,int n1,float** mat
 		}
 	}	
 	//calling the matrix multiplication function in openblas
-	cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1, n2, n1, 1, col_major_matrix1, m1, col_major_matrix2, m1, 0, matrix3, m1);
+	cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1, n2, n1, 1, col_major_matrix1, m1, col_major_matrix2, n1, 0, matrix3, m1);
 
 }
 
