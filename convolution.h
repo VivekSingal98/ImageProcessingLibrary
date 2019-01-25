@@ -14,20 +14,23 @@ float** addPadding(float** matrix,int m,int n,int p);
 float** matrix_convolution_with_mult(float** matrix,int m1,int n1,float** kernel,int m2,int n2,string method);
 float** conv_without_mult(float** matrix, int m1, int n1, float** kernel, int m2, int n2);
 
-//making a struct for storing the matix row and column to be multiplied
+//making a struct for storing the matix row and kernel matrix to be multiplied
 struct mult_store_struct {
 	float* matrix_row;
-	float* matrix_column;
-	int length;
-	float answer; 
+	float** matrix_column;
+	int l1,l2;
+	float* answer; 
 };
 
-//function for computing multiplication of one row and one column 
+//function for computing multiplication of one row with another matrix 
 void* single_mult(void* arg){
 	struct mult_store_struct *arg_struct = (struct mult_store_struct*) arg;
-	float sum = 0;
-	for(int i=0;i<arg_struct->length;i++){
-		sum = sum + (arg_struct->matrix_row[i])*(arg_struct->matrix_column[i]); 
+	float* sum = new float[arg_struct->l2];
+	for(int i=0;i<arg_struct->l2;i++){
+		sum[i] = 0;
+		for(int j=0;j<arg_struct->l1;j++){
+			sum[i] = sum[i] + (arg_struct->matrix_row[j])*(arg_struct->matrix_column[j][i]); 
+		}
 	} 
 	arg_struct->answer = sum;
 	pthread_exit(0);
@@ -42,35 +45,29 @@ float** matrix_multiplication_pthread(float** matrix1,int m1,int n1,float** matr
 	}
 	float** matrix3=createMatrix(m1,n2);
 		
-	//transposing matrix2
-	float** column_mat = createMatrix(n2,m2);
-	for(int i=0;i<n2;i++){
-		for(int j=0;j<m2;j++){
-			column_mat[i][j] = matrix2[j][i];
-		}	 	
-	}
 
-	//declaring array of struct and pthread corresponding to each row and column multiplication 
-	struct mult_store_struct args[m1*n2];  
-	pthread_t tids[m1*n2];
+	//declaring array of struct and pthread corresponding to each row of matrix1 
+	struct mult_store_struct args[m1];  
+	pthread_t tids[m1];
 	
-	//creating pthread for multiplying each row of matrix1 with each column of matrix2
+	//creating pthread for multiplying each row of matrix1 with matrix2
 	for(int i=0;i<m1;i++) {
-		for(int j=0;j<n2;j++) {
+		
 			
-			args[i*n2+j].matrix_row = matrix1[i];
-			args[i*n2+j].matrix_column = column_mat[j];
-			args[i*n2+j].length = n1;
-			pthread_create(&tids[i*n2+j], NULL, single_mult, &args[i*n2+j]);			
-		}
+			args[i].matrix_row = matrix1[i];
+			args[i].matrix_column = matrix2;
+			args[i].l1 = n1;
+			args[i].l2 = n2;
+			pthread_create(&tids[i], NULL, single_mult, &args[i]);			
+		
 	}
 
 	//running the pthreads and storing result in matrix3
 	for(int i=0;i<m1;i++) {
-		for(int j=0;j<n2;j++) {
-			pthread_join(tids[i*n2+j],NULL);
-			matrix3[i][j] = args[i*n2+j].answer;
-		}
+		
+			pthread_join(tids[i],NULL);
+			matrix3[i] = args[i].answer;
+		
 	}
 
 	return matrix3;
