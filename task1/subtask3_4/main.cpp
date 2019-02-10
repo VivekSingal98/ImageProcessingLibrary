@@ -35,7 +35,6 @@ void readConvWeightsAndBias(string filename,int C_new,int C_prev,int m,int n,flo
   fin.close();  
 }
 
-
 //multipies two matrices using openblas
 void matrix_multiplication_openblas(float** matrix1,int m1,int n1,float* matrix2,int m2,float* matrix3) {
  
