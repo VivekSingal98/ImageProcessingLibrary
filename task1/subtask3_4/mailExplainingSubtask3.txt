@@ -1,0 +1,95 @@
+The weight values are in a single column. It's in row major order for the filter matrices.
+
+Thanks!
+Riju
+
+On 07.02.2019 19:49, Rijurekha Sen wrote:
+Two sample outputs for digits 1 and 2 in MNIST are given on Piazza
+under resources.
+
+The png is the input image, _new.txt is the image in text format,
+data.txt is after preprocessing. The MNIST images are not 28x28. I
+have given the small script I use to convert the png to data.txt, on
+which my conv1 starts.
+
+The rest of the files are layerwise outputs with final softmax
+probabilities. As you can see, with the weights I provided earlier,
+these two digits are recognized correctly. This is not always the
+case, so don't be scared if for some MNIST digits, your top
+probability doesn't match the digit.
+
+Thanks!
+Riju
+
+On 31.01.2019 17:08, Rijurekha Sen wrote:
+Dear students,
+Sorry for the delay in posting details about subtask3. And also sorry
+for so many details in this email. Please read carefully.
+
+The functions you have implemented in subtask1 -- convolution, relu,
+pooling, soft-max are useful in higher level applications like
+recognizing digits given an image of a hand-written digit. "Putting
+together these functions in some order" to map an image (input) to a
+digit between 0-9 (output label) constitutes a Convolutional Neural
+Network (CNN). The order in which the functions are combined is called
+the Neural Network Architecture. CNN is a type of Deep Neural Network
+(DNN), as it uses the convolution function, useful in computer vision
+applications.
+
+Caffe (http://caffe.berkeleyvision.org/) is a framework for easy
+implementation of DNNs. What is a framework? It is an implementation
+of functions commonly used in DNNs, so that people who need to use
+DNNs do not have to write the constituent functions from scratch every
+time. Frameworks internally call efficient implementations of
+functions like matrix multiplications (gemm) from OpenBLAS, MKL and
+other libraries. In subtask2 you had a flavour of this, making the
+functions more efficient using linear algebra libraries. There are
+other DNN frameworks like Caffe - Tensorflow, PyTorch etc., written in
+different programming languages and implementing different functions.
+
+So most of you have your own frameworks now. The next task is to
+stitch together functions from your framework and implement a CNN
+called LeNet.
+
+We will be using the LeNet architecture from
+https://github.com/BVLC/caffe/tree/master/examples/mnist as given in
+https://github.com/BVLC/caffe/blob/master/examples/mnist/lenet.prototxt.
+It has two convolutional layers, two pooling layers, two fully
+connected (FC) layers, one relu layer and a softmax layer. FC layers
+might sound new, but they are essentially convolutional layers where
+the kernel size is the same as the input size.
+
+Details about these layers is in details.txt under Resources in Piazza.
+
+The parameters of any CNN need to be learnt using input data, for
+which the output labels are known. Such a labeled dataset is called
+training dataset and the process is called, well, training. Training
+is non-trivial and you will learn in Machine Learning/Deep Learning
+courses later, about the methodology.
+
+For this subtask, you will be given pre-trained weights. Weights are
+in conv1.txt, conv2.txt, fc1.txt, fc2.txt under resources in Piazza.
+
+You will have to write code to implement this LeNet architecture, that
+takes as input a 28x28 image from http://yann.lecun.com/exdb/mnist/,
+reads the pre-trained weights from the attached files and uses them to
+output the top 5 softmax probabilities.
+
+I will send some sample images from this dataset, with top-5 soft-max
+probabilities outputs with my implementation over the weekend. You can
+see whether your output probabilities match mine. I will also upload
+layerwise outputs, to help you debug mismatches, in case the final
+probabilities don't match.
+
+Deadline for this is Feb 14.
+
+We will have a class next week where we will discuss subtask1 and
+subtask2 submissions and doubts that you have in subtask3. I will send
+a separate mail to find a suitable time for all of us to meet.
+
+Thanks!
+Riju
+
+p.s. Remember the constant need for clean code (separation into cpp
+and header files, commented code, modular coding using classes and
+functions wherever possible), debugging without printf-s ...

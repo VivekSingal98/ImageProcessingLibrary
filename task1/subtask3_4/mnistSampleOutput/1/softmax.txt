@@ -1,0 +1,11 @@
+ CPU_TOP :  
+44.3708 class 1 output 5.37624
+ CPU_TOP :  
+43.6497 class 2 output 5.35985
+ CPU_TOP :  
+7.86271 class 4 output 3.64578
+ CPU_TOP :  
+3.72999 class 5 output 2.90006
+ CPU_TOP :  
+0.183461 class 0 output -0.112101 CPU_TOP : 
+
