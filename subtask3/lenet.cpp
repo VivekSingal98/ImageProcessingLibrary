@@ -2,14 +2,13 @@
 #include<vector>
 #include <fstream>
 #include <string>
-#include <math.h>
 #include "utility.h"
 #include "convolution.h"
 #include "sampling.h"
-#include "activation.h"
 #include "probability.h"
 using namespace std;
 
+void sort(vector<float> vec);
 
 //sort the softmax probability and give top 5 classes with respective probabilities
 void sort(vector<float> vec){
@@ -24,15 +23,22 @@ void sort(vector<float> vec){
         index = j;
       }
     }
-    cout << "class:" << index << " probability:" << a << endl;
+    cout << "class:" << index << " probability: " << a << endl;
     vec[index] = -1;
   }
 }
 
+void writeVectorToFile(string outputFile, vector<float> vect){
+    ofstream fout(outputFile);
+    for(int i =0,size=vect.size(); i <size; i++) {
+      fout<<vect[i]<<" ";
+    }
+    fout.close();
+}
 
 int main (int argc, char **argv)
 {     
-  if(argc==7){
+  if(argc==7) {
     //Arguments-> ./main lenet input_file conv1 conv2 fc1 fc2
     string input_file = argv[2];
     string conv1_kernelfile = argv[3];
@@ -63,7 +69,7 @@ int main (int argc, char **argv)
     }  
 
     //taking out the probabilities
-    vector<float> probabilities = softmax(output);  
+    vector<float> probabilities = softmax(output);
     //sorting the probabilities and giving top 5 classes
     sort(probabilities);
 
