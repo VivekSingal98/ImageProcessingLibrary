@@ -1,0 +1,12 @@
+convolution usage: convolution is without multiplication. convolution_mult is with multiplication. For zero padding put padding=0 method type mkl/cblas/pthread
+for choosing mkl change cblas.h to mkl.h in convolution.h
+% ./main convolution/convolution_mult padding input_file input_rows kernel_file kernel_rows output_file method
+
+maxpool or avgpool usage:
+% ./main maxpool/avgpool input_file input_rows kernel_rows output_file
+
+relu or tanh usage:
+% ./main relu/tanh inputFile1.txt matrix_m matrix_n outputFile.txt
+
+sigmoid or softmax usage: High number in input file can lead to infinity value due to exponential operation
+% ./main sigmoid/softmax input_file output_file

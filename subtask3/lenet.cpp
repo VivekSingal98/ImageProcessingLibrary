@@ -28,13 +28,6 @@ void sort(vector<float> vec){
   }
 }
 
-void writeVectorToFile(string outputFile, vector<float> vect){
-    ofstream fout(outputFile);
-    for(int i =0,size=vect.size(); i <size; i++) {
-      fout<<vect[i]<<" ";
-    }
-    fout.close();
-}
 
 int main (int argc, char **argv)
 {     
