@@ -4,6 +4,9 @@ void readConfigFile_RoadParam(ifstream& fin,map<string, float>& mapRoadParam){
     string line;
     while(getline(fin,line)) {
         istringstream iss(line);
+        if(line.size()==0) {
+            continue;
+        }
         string word;
         iss >>word;
         if(word[0]=='#') {
@@ -19,12 +22,16 @@ void readConfigFile_RoadParam(ifstream& fin,map<string, float>& mapRoadParam){
             mapRoadParam[word]=stof(tmp);
         }
     }
+    mapRoadParam["Road_Width"]=mapRoadParam["Num_Lanes"]*mapRoadParam["Lane_Width"];
 }
 
 void readConfigFile_DefaultParam(ifstream& fin,map<string,float>& mapDefaultParam){
     string line;
     while(getline(fin,line)) {
         istringstream iss(line);
+        if(line.size()==0) {
+            continue;
+        }
         string word;
         iss >>word;
         if(word[0]=='#') {
@@ -46,6 +53,9 @@ void readConfigFile_VehicleParam(ifstream& fin, string carType,map<string, float
     string line;
     while(getline(fin,line)) {
         istringstream iss(line);
+        if(line.size()==0) {
+            continue;
+        }
         string word;
         iss >>word;
         if(word[0]=='#') {
@@ -68,6 +78,7 @@ void readConfigFile_VehicleParam(ifstream& fin, string carType,map<string, float
 void readConfigFile_Simulation(ifstream& fin,map<string, float>& mapVehicleParam,map<int,string>& signalFrame,map<int,int>& mapPass,vector<vehicle>& vehicleVector){
     string line;
     int frameConfig=0;
+    int vehicleId=0;
     while(getline(fin,line)) {
         istringstream iss(line);
         if(line.size()==0) {
@@ -107,6 +118,8 @@ void readConfigFile_Simulation(ifstream& fin,map<string, float>& mapVehicleParam
             }
             vehicle v(mapVehicleParam[word+"Length"], mapVehicleParam[word+"Width"],
                       mapVehicleParam[word+"Speed"],col1,col2,col3,frameConfig);
+            v.id=vehicleId;
+            vehicleId++;
             vehicleVector.push_back(v);
             frameConfig++;
         }

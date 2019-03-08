@@ -9,5 +9,6 @@ using namespace std;
 
 void printMap(map<string, float> mapVar);
 int** createMatrix(int m,int n);
-
+void setZeros(int** matrix,int m,int n);
+void printMatrix(int** matrix,int m,int n);
 #endif /* utility_hpp */

@@ -10,6 +10,9 @@ public:
     float xPos;
     float yPos;
     float inTime;
+    int laneNo;
+    int laneId;
+    int id;
     vehicle(float len,float wid,float spee,int col1,int col2,int col3,float tim);
     void updatePos();
 };

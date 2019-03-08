@@ -7,7 +7,7 @@ using namespace std;
 
 
 static bool isRed=true;
-static int refreshMills=1000; //in sec
+static int refreshMills=200; //in sec
 static int frameSim=-1;
 
 
